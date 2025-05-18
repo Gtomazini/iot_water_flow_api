@@ -11,3 +11,14 @@ services:
       - .:/app
     restart: unless-stopped
     container_name: watergame-api
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - watergame-api
+    restart: unless-stopped
+    container_name: watergame-nginx
