@@ -9,4 +9,7 @@ Uso dos frameworks pythontest-bdd e fastapi.
 # Tests
 Contém Features que contém o BDD e Steps que contém os testes.
 
+# Como rodar
+Executar no prompt:
 
+uvicorn app.main:app -reload
