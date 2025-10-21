@@ -15,6 +15,8 @@ class UserResponse(BaseModel):
     id_user: int
     username: str = Field(..., max_length=255)
     locale: str = Field(..., max_length=255)
+    codigo_user: str
 
     class Config:
         from_attributes = True
+
