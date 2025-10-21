@@ -10,12 +10,14 @@ from schemas.device_schema import Base as DeviceBase
 from schemas.consumo_pontos_schema import Base as ConsumoPontosBase
 from schemas.consumo_diario_schema import Base as ConsumoDiarioBase
 from schemas.consumo_diario_pontos_schema import Base as ConsumoDiarioPontosBase
+from schemas.codigo_usuario_schema import Base as CodigoUsuarioBase
 
 # Importar os roteadores
 from routers.user_accounts_router import router as user_router
 from routers.devices_router import router as device_router
 from routers.consumo_pontos_router import router as consumo_pontos_router
 from routers.consumo_diario_router import router as consumo_diario_router
+from routers.codigo_usuario_router import router as codigo_usuario_router
 
 '''
 Ponto de entrada da API
@@ -30,11 +32,12 @@ mais detalhes consultar em: https://fastapi.tiangolo.com/tutorial/first-steps/
 
 # Criar as tabelas no banco de dados
 # Comentar estas linhas em produção ou se as tabelas já existirem
-UserBase.metadata.create_all(bind=engine)
-DeviceBase.metadata.create_all(bind=engine)
-ConsumoPontosBase.metadata.create_all(bind=engine)
-ConsumoDiarioBase.metadata.create_all(bind=engine)
-ConsumoDiarioPontosBase.metadata.create_all(bind=engine)
+# UserBase.metadata.create_all(bind=engine)
+# DeviceBase.metadata.create_all(bind=engine)
+# ConsumoPontosBase.metadata.create_all(bind=engine)
+# ConsumoDiarioBase.metadata.create_all(bind=engine)
+# ConsumoDiarioPontosBase.metadata.create_all(bind=engine)
+# CodigoUsuarioBase.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="WaterGame API",
@@ -63,6 +66,7 @@ app.include_router(user_router, prefix="/api/v1", tags=["users"])
 app.include_router(device_router, prefix="/api/v1", tags=["devices"])
 app.include_router(consumo_pontos_router, prefix="/api/v1", tags=["consumo_pontos"])
 app.include_router(consumo_diario_router, prefix="/api/v1", tags=["consumo_diario"])
+app.include_router(codigo_usuario_router, prefix="/api/v1", tags=["codigo-usuario"])
 
 # Endpoint raiz
 @app.get("/")
