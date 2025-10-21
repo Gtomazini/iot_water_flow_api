@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from app.database import get_db
-from crud.codigo_usuario import create_codigo_usuario, delete_codigo_usuario
+from crud.codigo_usuario import create_codigo_usuario, deletar_codigo_usuario
 from models.user_account_model import UserCreate, UserResponse
 from crud import user_account as user_crud
 
@@ -46,6 +46,6 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
 
-    delete_codigo_usuario(db=db, id_user=user_id)
+    deletar_codigo_usuario(db=db, id_user=user_id)
 
     return db_user

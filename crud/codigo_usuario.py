@@ -32,7 +32,7 @@ def create_codigo_usuario(db: Session, id_user: int):
     db.refresh(novo_codigo)
     return novo_codigo
 
-def delete_codigo_usuario(db: Session, id_user:int):
+def deletar_codigo_usuario(db: Session, id_user:int):
 
     target = db.query(CodigoUsuarioSchema).filter(
         CodigoUsuarioSchema.id_user == id_user
