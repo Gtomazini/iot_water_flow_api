@@ -1,0 +1,58 @@
+# Ambientes virtuais Python
+venv/
+.venv/
+env/
+ENV/
+
+# Arquivos de ambiente e secrets
+keys.env
+.env
+.env.*
+*.env
+
+# Certificados SSL
+certbot/
+*.pem
+*.crt
+*.key
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Backups
+*.backup
+*.bak
+
+# Arquivos temporários
+*.tmp
+temp/
+tmp/
