@@ -1,0 +1,71 @@
+name: Deploy WaterGame API
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:  # Permite rodar manualmente
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy to VM
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VM_HOST }}
+        username: ${{ secrets.VM_USER }}
+        key: ${{ secrets.VM_SSH_KEY }}
+        port: ${{ secrets.VM_PORT || 22 }}
+        script: |
+          set -e
+          echo "📦 Iniciando deploy..."
+          
+          # Navega para o diretório do projeto
+          cd ${{ secrets.PROJECT_PATH }}
+          
+          # Faz backup do .env antes de atualizar
+          cp keys.env keys.env.backup || true
+          
+          # Atualiza o código
+          echo "🔄 Atualizando código..."
+          git fetch origin
+          git reset --hard origin/${{ github.ref_name }}
+          
+          # Restaura o .env se foi perdido
+          if [ ! -f keys.env ] && [ -f keys.env.backup ]; then
+            mv keys.env.backup keys.env
+          fi
+          
+          # Para os containers
+          echo "🛑 Parando containers..."
+          docker-compose down
+          
+          # Rebuilda a imagem
+          echo "🔨 Construindo nova imagem..."
+          docker-compose build --no-cache watergame-api
+          
+          # Sobe os containers
+          echo "🚀 Iniciando containers..."
+          docker-compose up -d
+          
+          # Limpa imagens antigas
+          echo "🧹 Limpando imagens antigas..."
+          docker image prune -f
+          
+          # Verifica se tá rodando
+          echo "✅ Verificando status..."
+          docker-compose ps
+          
+          echo "🎉 Deploy concluído!"
+
+    - name: Notify on success
+      if: success()
+      run: echo "✅ Deploy realizado com sucesso!"
+
+    - name: Notify on failure
+      if: failure()
+      run: echo "❌ Deploy falhou! Verifique os logs."
